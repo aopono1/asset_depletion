@@ -98,7 +98,7 @@ st.title('Asset Depletion Calculator')
 st.sidebar.header('Input Parameters')
 a = st.sidebar.number_input('Current Age', min_value=0, max_value=100, value=30)
 b = st.sidebar.number_input('Retirement Age', min_value=0, max_value=100, value=65)
-c = st.sidebar.number_input('Current Assets', min_value=0, value=20000000)
+c = st.sidebar.number_input('Current Assets', min_value=0, value=10000000)
 pre_retirement_expenses = st.sidebar.number_input('Monthly Pre-retirement Expenses', min_value=0, value=250000)
 
 retirement_expenses_percentage = st.sidebar.slider('Retirement Expenses (% of Pre-retirement)', 
