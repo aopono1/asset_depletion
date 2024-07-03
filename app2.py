@@ -96,10 +96,10 @@ def plot_asset_history(asset_history):
 st.title('Asset Depletion Calculator')
 
 st.sidebar.header('Input Parameters')
-a = st.sidebar.number_input('Current Age', min_value=0, max_value=100, value=50)
-b = st.sidebar.number_input('Retirement Age', min_value=a, max_value=100, value=60)
-c = st.sidebar.number_input('Current Assets', min_value=0, value=50000000)
-pre_retirement_expenses = st.sidebar.number_input('Monthly Pre-retirement Expenses', min_value=0, value=300000)
+a = st.sidebar.number_input('Current Age', min_value=0, max_value=100, value=30)
+b = st.sidebar.number_input('Retirement Age', min_value=0, max_value=100, value=65)
+c = st.sidebar.number_input('Current Assets', min_value=0, value=20000000)
+pre_retirement_expenses = st.sidebar.number_input('Monthly Pre-retirement Expenses', min_value=0, value=250000)
 
 retirement_expenses_percentage = st.sidebar.slider('Retirement Expenses (% of Pre-retirement)', 
                                                    min_value=0, max_value=200, value=90, step=1, 
@@ -114,7 +114,7 @@ f = st.sidebar.slider('Annual Return Rate',
                       format='%.1f%%') / 100
 
 g = st.sidebar.number_input('Pension Start Age', min_value=b, max_value=100, value=70)
-h = st.sidebar.number_input('Monthly Pension', min_value=0, value=150000)
+h = st.sidebar.number_input('Monthly Pension', min_value=0, value=200000)
 
 st.sidebar.subheader('Other Transactions')
 num_transactions = st.sidebar.number_input('Number of Other Transactions', min_value=0, max_value=10, value=0)
