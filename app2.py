@@ -1,6 +1,7 @@
 # 修正点1: Matplotlibのバックエンドを設定
 import matplotlib
 matplotlib.use('Agg')
+import numpy as np
 
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -90,7 +91,8 @@ def plot_asset_history(asset_history):
     # 修正点2: 現在のfigureを取得し、クリア
     fig = plt.gcf()
     plt.close(fig)
-
+　　plt.clf()
+　　plt.close('all')
     return fig
 
 st.title('Asset Depletion Calculator')
