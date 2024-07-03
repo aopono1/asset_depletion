@@ -113,7 +113,7 @@ f = st.sidebar.slider('Annual Return Rate',
                       min_value=0.0, max_value=10.0, value=2.0, step=0.1, 
                       format='%.1f%%') / 100
 
-g = st.sidebar.number_input('Pension Start Age', min_value=b, max_value=100, value=70)
+g = st.sidebar.number_input('Pension Start Age', min_value=b, max_value=100, value=65)
 h = st.sidebar.number_input('Monthly Pension', min_value=0, value=200000)
 
 st.sidebar.subheader('Other Transactions')
