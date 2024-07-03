@@ -1,3 +1,7 @@
+# 修正点1: Matplotlibのバックエンドを設定
+import matplotlib
+matplotlib.use('Agg')
+
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
@@ -83,6 +87,10 @@ def plot_asset_history(asset_history):
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, ['Assets', 'Monthly Expenses'], loc='upper right')
 
+    # 修正点2: 現在のfigureを取得し、クリア
+    fig = plt.gcf()
+    plt.close(fig)
+
     return fig
 
 st.title('Asset Depletion Calculator')
@@ -93,17 +101,14 @@ b = st.sidebar.number_input('Retirement Age', min_value=a, max_value=100, value=
 c = st.sidebar.number_input('Current Assets', min_value=0, value=50000000)
 pre_retirement_expenses = st.sidebar.number_input('Monthly Pre-retirement Expenses', min_value=0, value=300000)
 
-# Retirement Expenses を百分率で表示
 retirement_expenses_percentage = st.sidebar.slider('Retirement Expenses (% of Pre-retirement)', 
                                                    min_value=0, max_value=200, value=90, step=1, 
                                                    format='%d%%') / 100
 
-# Inflation Rate を百分率で表示、0.1%単位で入力
 e = st.sidebar.slider('Inflation Rate', 
                       min_value=0.0, max_value=10.0, value=2.0, step=0.1, 
                       format='%.1f%%') / 100
 
-# Annual Return Rate を百分率で表示、0.1%単位で入力
 f = st.sidebar.slider('Annual Return Rate', 
                       min_value=0.0, max_value=10.0, value=2.0, step=0.1, 
                       format='%.1f%%') / 100
@@ -129,7 +134,8 @@ if st.sidebar.button('Calculate'):
         st.write("Assets will not deplete within the calculated timeframe.")
     
     fig = plot_asset_history(asset_history)
-    st.pyplot(fig)
+    # 修正点3: use_container_width=Trueを追加
+    st.pyplot(fig, use_container_width=True)
     
     st.subheader('Asset History')
     for year, age, assets, monthly_expenses in asset_history:
