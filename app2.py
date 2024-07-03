@@ -93,7 +93,7 @@ def plot_asset_history(asset_history):
 plt.close(fig)
 plt.clf()
 plt.close('all')
-    return fig
+return fig
 
 st.title('Asset Depletion Calculator')
 
