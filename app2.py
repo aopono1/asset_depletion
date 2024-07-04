@@ -101,7 +101,7 @@ b = st.sidebar.number_input('退職時の年齢', min_value=0, max_value=100, va
 c = st.sidebar.number_input('保有している金融資産', min_value=0, value=10000000)
 pre_retirement_expenses = st.sidebar.number_input('毎月の生活費', min_value=0, value=250000)
 
-retirement_expenses_percentage = st.sidebar.slider('年金受給開始後の生活費 (年金受給前の毎月の生活費に対する割合)', 
+retirement_expenses_percentage = st.sidebar.slider('年金受給開始後の生活費 (年金受給前の毎月の生活費に対する割合％)', 
                                                    min_value=0, max_value=200, value=90, step=1, 
                                                    format='%d%%') / 100
 
