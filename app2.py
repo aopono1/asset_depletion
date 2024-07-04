@@ -7,15 +7,6 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 import io
 
-# フルスクリーンボタンを非表示にするCSSを追加
-st.markdown("""
-<style>
-.stApp [data-testid="stToolbar"] {
-  display: none;
-}
-</style>
-""", unsafe_allow_html=True)
-
 def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, transactions):
     current_age = a
     retirement_age = b
