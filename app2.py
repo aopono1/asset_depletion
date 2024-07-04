@@ -24,27 +24,30 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
     adjusted_retirement_expenses = None
     
     while current_assets > 0:
+        # 現在の生活費を計算
         if current_age < retirement_age:
-            annual_expenses_adjusted = 0
-            monthly_expenses_adjusted = 0
+            annual_expenses_adjusted = annual_pre_retirement_expenses * ((1 + inflation_rate) ** (current_age - a))
         elif current_age < pension_start_age:
             annual_expenses_adjusted = annual_pre_retirement_expenses * ((1 + inflation_rate) ** (current_age - a))
-            monthly_expenses_adjusted = annual_expenses_adjusted / 12
         else:
             if current_age == pension_start_age:
                 last_year_expenses = annual_pre_retirement_expenses * ((1 + inflation_rate) ** (pension_start_age - a - 1))
                 adjusted_retirement_expenses = last_year_expenses * retirement_expenses_percentage
             annual_expenses_adjusted = adjusted_retirement_expenses * ((1 + inflation_rate) ** (current_age - pension_start_age))
-            monthly_expenses_adjusted = annual_expenses_adjusted / 12
+        
+        monthly_expenses_adjusted = annual_expenses_adjusted / 12
         
         annual_other_transactions = sum(amount for (amount, age) in transactions if age == current_age)
         
         asset_history.append((current_year, current_age, current_assets, monthly_expenses_adjusted))
         
-        if current_age >= pension_start_age:
-            current_assets = current_assets * (1 + annual_return_rate) - annual_expenses_adjusted + annual_pension + annual_other_transactions
+        if current_age >= retirement_age:
+            if current_age >= pension_start_age:
+                current_assets = current_assets * (1 + annual_return_rate) - annual_expenses_adjusted + annual_pension + annual_other_transactions
+            else:
+                current_assets = current_assets * (1 + annual_return_rate) - annual_expenses_adjusted + annual_other_transactions
         else:
-            current_assets = current_assets * (1 + annual_return_rate) - annual_expenses_adjusted + annual_other_transactions
+            current_assets = current_assets * (1 + annual_return_rate) + annual_other_transactions
         
         if current_assets <= 0:
             asset_history.append((current_year, current_age, current_assets, monthly_expenses_adjusted))
@@ -69,14 +72,14 @@ def plot_asset_history(asset_history):
     color = 'tab:blue'
     ax1.set_xlabel('Age')
     ax1.set_ylabel('Assets (in ten-thousand units)', color=color)
-    ax1.plot(ages, assets, marker='o', color=color)
+    ax1.plot(ages, assets, marker='o', color=color, label='Assets')
     ax1.tick_params(axis='y', labelcolor=color)
     ax1.yaxis.set_major_formatter(FuncFormatter(format_func))
 
     ax2 = ax1.twinx()
     color = 'tab:red'
     ax2.set_ylabel('Monthly Expenses (in ten-thousand units)', color=color)
-    ax2.plot(ages, monthly_expenses, marker='s', color=color)
+    ax2.plot(ages, monthly_expenses, marker='s', color=color, label='Monthly Expenses')
     ax2.tick_params(axis='y', labelcolor=color)
     ax2.yaxis.set_major_formatter(FuncFormatter(format_func))
 
@@ -129,14 +132,14 @@ if st.sidebar.button('Calculate'):
     depletion_age, asset_history = calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, transactions)
     
     if depletion_age:
-        st.write(f"Assets will deplete at age: {depletion_age}")
+        st.write(f"資産が枯渇する年齢: {depletion_age}歳")
     else:
-        st.write("Assets will not deplete within the calculated timeframe.")
+        st.write("シミュレーションの期間内では資産は枯渇しません")
     
     fig = plot_asset_history(asset_history)
     # 修正点3: use_container_width=Trueを追加
     st.pyplot(fig, use_container_width=True)
     
-    st.subheader('Asset History')
+    st.subheader('金融資産と毎月の生活費の推移')
     for year, age, assets, monthly_expenses in asset_history:
-        st.write(f"Year: {year}, Age: {age}, Assets: {assets:.2f}, Monthly Expenses: {monthly_expenses:.2f}")
+        st.write(f"西暦: {year}, 年齢: {age}, 金融資産: {assets:.2f}, 毎月の生活費: {monthly_expenses:.2f}")
