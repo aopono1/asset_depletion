@@ -93,31 +93,31 @@ def plot_asset_history(asset_history):
 
     return fig
 
-st.title('Asset Depletion Calculator')
+st.title('資産寿命シミュレーション')
 
-st.sidebar.header('Input Parameters')
-a = st.sidebar.number_input('Current Age', min_value=0, max_value=100, value=30)
-b = st.sidebar.number_input('Retirement Age', min_value=0, max_value=100, value=65)
-c = st.sidebar.number_input('Current Assets', min_value=0, value=10000000)
-pre_retirement_expenses = st.sidebar.number_input('Monthly Pre-retirement Expenses', min_value=0, value=250000)
+st.sidebar.header('入力項目')
+a = st.sidebar.number_input('現在の年齢', min_value=0, max_value=100, value=30)
+b = st.sidebar.number_input('退職時の年齢', min_value=0, max_value=100, value=65)
+c = st.sidebar.number_input('保有している金融資産', min_value=0, value=10000000)
+pre_retirement_expenses = st.sidebar.number_input('毎月の生活費', min_value=0, value=250000)
 
-retirement_expenses_percentage = st.sidebar.slider('Retirement Expenses (% of Pre-retirement)', 
+retirement_expenses_percentage = st.sidebar.slider('年金受給開始後の生活費 (年金受給前の毎月の生活費に対する割合)', 
                                                    min_value=0, max_value=200, value=90, step=1, 
                                                    format='%d%%') / 100
 
-e = st.sidebar.slider('Inflation Rate', 
+e = st.sidebar.slider('インフレ率', 
                       min_value=0.0, max_value=10.0, value=2.0, step=0.1, 
                       format='%.1f%%') / 100
 
-f = st.sidebar.slider('Annual Return Rate', 
+f = st.sidebar.slider('金融資産の運用利回り率', 
                       min_value=0.0, max_value=10.0, value=2.0, step=0.1, 
                       format='%.1f%%') / 100
 
-g = st.sidebar.number_input('Pension Start Age', min_value=b, max_value=100, value=65)
-h = st.sidebar.number_input('Monthly Pension', min_value=0, value=200000)
+g = st.sidebar.number_input('年金受給開始年齢', min_value=b, max_value=100, value=65)
+h = st.sidebar.number_input('毎月の年金受給額', min_value=0, value=200000)
 
-st.sidebar.subheader('Other Transactions')
-num_transactions = st.sidebar.number_input('Number of Other Transactions', min_value=0, max_value=10, value=0)
+st.sidebar.subheader('他の入出金イベント')
+num_transactions = st.sidebar.number_input('入出金イベントの回数', min_value=0, max_value=10, value=0)
 transactions = []
 for i in range(num_transactions):
     col1, col2 = st.sidebar.columns(2)
