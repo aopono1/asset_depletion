@@ -146,4 +146,4 @@ if st.sidebar.button('計算'):
     
     st.subheader('資産履歴')
     for year, age, assets, monthly_expenses in asset_history:
-        st.write(f"年: {year}, 年齢: {age:.2f}歳, 資産: {assets:.2f}円, 月間支出: {monthly_expenses:.2f}円")
+        st.write(f"西暦: {year}年, 年齢: {age:.2f}歳, 資産: {assets:.2f}円, 月間支出: {monthly_expenses:.2f}円")
