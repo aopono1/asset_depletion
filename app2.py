@@ -150,4 +150,4 @@ if st.sidebar.button('計算'):
     for year, age, assets, monthly_expenses in asset_history:
         years = int(age)
         months = int((age - years) * 12)
-        st.write(f"年: {year}, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
+        st.write(f"西暦: {year}年, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 毎月の生活費: {int(monthly_expenses):,}円")
