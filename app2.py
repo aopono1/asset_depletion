@@ -17,46 +17,51 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
     monthly_pension = h
     current_year = 2024
     
-    annual_pre_retirement_expenses = pre_retirement_expenses * 12
-    annual_pension = monthly_pension * 12
+    monthly_pre_retirement_expenses = pre_retirement_expenses
+    monthly_return_rate = (1 + annual_return_rate) ** (1/12) - 1
+    monthly_inflation_rate = (1 + inflation_rate) ** (1/12) - 1
     
     asset_history = []
     adjusted_retirement_expenses = None
     
     while current_assets > 0:
-        # 現在の生活費を計算
-        if current_age < retirement_age:
-            annual_expenses_adjusted = annual_pre_retirement_expenses * ((1 + inflation_rate) ** (current_age - a))
-        elif current_age < pension_start_age:
-            annual_expenses_adjusted = annual_pre_retirement_expenses * ((1 + inflation_rate) ** (current_age - a))
-        else:
-            if current_age == pension_start_age:
-                last_year_expenses = annual_pre_retirement_expenses * ((1 + inflation_rate) ** (pension_start_age - a - 1))
-                adjusted_retirement_expenses = last_year_expenses * retirement_expenses_percentage
-            annual_expenses_adjusted = adjusted_retirement_expenses * ((1 + inflation_rate) ** (current_age - pension_start_age))
-        
-        monthly_expenses_adjusted = annual_expenses_adjusted / 12
-        
-        annual_other_transactions = sum(amount for (amount, age) in transactions if age == current_age)
+        for month in range(12):
+            # 現在の生活費を計算
+            if current_age < retirement_age:
+                monthly_expenses_adjusted = monthly_pre_retirement_expenses * ((1 + monthly_inflation_rate) ** ((current_age - a) * 12 + month))
+            elif current_age < pension_start_age:
+                monthly_expenses_adjusted = monthly_pre_retirement_expenses * ((1 + monthly_inflation_rate) ** ((current_age - a) * 12 + month))
+            else:
+                if current_age == pension_start_age and month == 0:
+                    last_month_expenses = monthly_pre_retirement_expenses * ((1 + monthly_inflation_rate) ** ((pension_start_age - a) * 12 - 1))
+                    adjusted_retirement_expenses = last_month_expenses * retirement_expenses_percentage
+                monthly_expenses_adjusted = adjusted_retirement_expenses * ((1 + monthly_inflation_rate) ** ((current_age - pension_start_age) * 12 + month))
+            
+            # 資産の計算
+            if current_age > retirement_age:  # ここを変更
+                if current_age >= pension_start_age:
+                    current_assets = current_assets * (1 + monthly_return_rate) - monthly_expenses_adjusted + monthly_pension
+                else:
+                    current_assets = current_assets * (1 + monthly_return_rate) - monthly_expenses_adjusted
+            else:
+                current_assets = current_assets * (1 + monthly_return_rate)
+            
+            # トランザクションの適用
+            for amount, age in transactions:
+                if age == current_age:
+                    current_assets += amount / 12  # 年間の金額を12で割って毎月適用
+            
+            if current_assets <= 0:
+                asset_history.append((current_year, current_age + month/12, current_assets, monthly_expenses_adjusted))
+                return current_age + month/12, asset_history
         
         asset_history.append((current_year, current_age, current_assets, monthly_expenses_adjusted))
-        
-        if current_age >= retirement_age:
-            if current_age >= pension_start_age:
-                current_assets = current_assets * (1 + annual_return_rate) - annual_expenses_adjusted + annual_pension + annual_other_transactions
-            else:
-                current_assets = current_assets * (1 + annual_return_rate) - annual_expenses_adjusted + annual_other_transactions
-        else:
-            current_assets = current_assets * (1 + annual_return_rate) + annual_other_transactions
-        
-        if current_assets <= 0:
-            asset_history.append((current_year, current_age, current_assets, monthly_expenses_adjusted))
-            return current_age, asset_history
-        
         current_age += 1
         current_year += 1
     
     return None, asset_history
+
+# ... (残りのコードは変更なし) ...
 
 def plot_asset_history(asset_history):
     years = [entry[0] for entry in asset_history]
