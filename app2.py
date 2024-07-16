@@ -158,7 +158,7 @@ if st.sidebar.button('計算'):
         
         if index == len(asset_history) - 1 and depletion_age is not None:
             # 資産が枯渇する最後の行
-            st.write(f"年: {year}, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
+            st.write(f"年: {year}, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 毎月の生活費: {int(monthly_expenses):,}円")
         else:
             # その他の行（月の表示を省略）
-            st.write(f"年: {year}, 年齢: {years}歳, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
+            st.write(f"西暦: {year}年, 年齢: {years}歳, 資産: {int(assets):,}円（12月末時点）, 毎月の生活費: {int(monthly_expenses):,}円（12月時点）")
