@@ -61,8 +61,6 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
     
     return None, asset_history
 
-# ... (残りのコードは変更なし) ...
-
 def plot_asset_history(asset_history):
     years = [entry[0] for entry in asset_history]
     ages = [entry[1] for entry in asset_history]
@@ -136,8 +134,9 @@ for i in range(num_transactions):
 if st.sidebar.button('計算'):
     depletion_age, asset_history = calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, transactions)
     
-    if depletion_age:
-        years, months = depletion_age
+    if depletion_age is not None:
+        years = int(depletion_age)
+        months = int((depletion_age - years) * 12)
         st.write(f"資産が枯渇する年齢: {years}歳{months}ヶ月目")
     else:
         st.write("計算期間内で資産は枯渇しません。")
@@ -146,5 +145,5 @@ if st.sidebar.button('計算'):
     st.pyplot(fig, use_container_width=True)
     
     st.subheader('資産履歴')
-    for year, age, month, assets, monthly_expenses in asset_history:
-        st.write(f"年: {year}, 年齢: {age}歳{month}ヶ月目, 資産: {assets:.2f}円, 月間支出: {monthly_expenses:.2f}円")
+    for year, age, assets, monthly_expenses in asset_history:
+        st.write(f"年: {year}, 年齢: {age:.2f}歳, 資産: {assets:.2f}円, 月間支出: {monthly_expenses:.2f}円")
