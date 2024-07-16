@@ -152,7 +152,13 @@ if st.sidebar.button('計算'):
     st.pyplot(fig, use_container_width=True)
     
     st.subheader('資産履歴')
-    for year, age, assets, monthly_expenses in asset_history:
+    for index, (year, age, assets, monthly_expenses) in enumerate(asset_history):
         years = int(age)
         months = int((age - years) * 12)
-        st.write(f"年: {year}, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
+        
+        if index == len(asset_history) - 1 and depletion_age is not None:
+            # 資産が枯渇する最後の行
+            st.write(f"年: {year}, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
+        else:
+            # その他の行（月の表示を省略）
+            st.write(f"年: {year}, 年齢: {years}歳, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
