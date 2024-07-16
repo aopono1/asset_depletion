@@ -109,6 +109,9 @@ a = st.sidebar.number_input('現在の年齢', min_value=0, max_value=100, value
 b = st.sidebar.number_input('退職時の年齢', min_value=0, max_value=100, value=65)
 c = st.sidebar.number_input('保有している金融資産', min_value=0, value=10000000)
 pre_retirement_expenses = st.sidebar.number_input('毎月の生活費', min_value=0, value=250000)
+# 新しい入力項目を追加
+i = st.sidebar.number_input('毎月の貯金・積立額', min_value=0, value=50000)
+j = st.sidebar.number_input('貯金・積立の実施最終年齢', min_value=a, max_value=100, value=65)
 
 retirement_expenses_percentage = st.sidebar.slider('年金受給開始後の生活費 (年金受給前の毎月の生活費に対する割合％)', 
                                                    min_value=0, max_value=200, value=90, step=1, 
@@ -125,9 +128,6 @@ f = st.sidebar.slider('金融資産の運用利回り率',
 g = st.sidebar.number_input('年金受給開始年齢', min_value=b, max_value=100, value=65)
 h = st.sidebar.number_input('毎月の年金受給額', min_value=0, value=200000)
 
-# 新しい入力項目を追加
-i = st.sidebar.number_input('毎月の貯金・積立額', min_value=0, value=50000)
-j = st.sidebar.number_input('貯金・積立の実施最終年齢', min_value=a, max_value=100, value=65)
 
 st.sidebar.subheader('他の入出金イベント')
 num_transactions = st.sidebar.number_input('入出金イベントの回数', min_value=0, max_value=10, value=0)
