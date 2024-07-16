@@ -5,7 +5,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, i, j, k, l, m, transactions):
+def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, i, j, k, m, transactions):
     current_age = a
     retirement_age = b
     current_assets = c
@@ -16,13 +16,11 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
     pre_retirement_savings = i
     post_retirement_savings = j
     savings_end_age = k
-    surplus_return_rate = l
     additional_income = m
     current_year = 2024
     
     monthly_pre_retirement_expenses = pre_retirement_expenses
     monthly_return_rate = (1 + annual_return_rate) ** (1/12) - 1
-    monthly_surplus_return_rate = (1 + surplus_return_rate) ** (1/12) - 1
     monthly_inflation_rate = (1 + inflation_rate) ** (1/12) - 1
     
     asset_history = []
@@ -49,9 +47,6 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
                     current_assets = current_assets * (1 + monthly_return_rate) - monthly_expenses_adjusted + additional_income
             else:
                 current_assets = current_assets * (1 + monthly_return_rate)
-            
-            # 余剰運用利回りの適用
-            current_assets *= (1 + monthly_surplus_return_rate)
             
             # 毎月の貯金・積立を追加
             if current_age <= savings_end_age:
@@ -104,9 +99,6 @@ h = st.sidebar.number_input('毎月の年金受給額', min_value=0, value=20000
 i = st.sidebar.number_input('退職前の毎月の貯金・積立額', min_value=0, value=50000)
 j = st.sidebar.number_input('退職後の毎月の貯金・積立額', min_value=0, value=0)
 k = st.sidebar.number_input('貯金・積立の実施最終年齢', min_value=a, max_value=100, value=65)
-l = st.sidebar.slider('貯金・積立に回せる余剰運用利回り率', 
-                      min_value=0.0, max_value=5.0, value=0.5, step=0.1, 
-                      format='%.1f%%') / 100
 m = st.sidebar.number_input('退職後の追加月間収入（副業など）', min_value=0, value=0)
 
 st.sidebar.subheader('他の入出金イベント')
@@ -119,7 +111,7 @@ for n in range(num_transactions):
     transactions.append((amount, age))
 
 if st.sidebar.button('計算'):
-    depletion_age, asset_history = calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, i, j, k, l, m, transactions)
+    depletion_age, asset_history = calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, i, j, k, m, transactions)
     
     if depletion_age is not None:
         years = int(depletion_age)
