@@ -131,6 +131,8 @@ for i in range(num_transactions):
     age = col2.number_input(f'Age for Transaction {i+1}', min_value=a, max_value=100, value=a)
     transactions.append((amount, age))
 
+# ...
+
 if st.sidebar.button('計算'):
     depletion_age, asset_history = calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, transactions)
     
@@ -146,4 +148,6 @@ if st.sidebar.button('計算'):
     
     st.subheader('資産履歴')
     for year, age, assets, monthly_expenses in asset_history:
-        st.write(f"西暦: {year}年, 年齢: {age:.2f}歳, 資産: {assets:.2f}円, 月間支出: {monthly_expenses:.2f}円")
+        years = int(age)
+        months = int((age - years) * 12)
+        st.write(f"年: {year}, 年齢: {years}歳{months}ヶ月目, 資産: {int(assets):,}円, 月間支出: {int(monthly_expenses):,}円")
