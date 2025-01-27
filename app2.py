@@ -15,7 +15,7 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
     monthly_pension = h
     monthly_savings = i
     savings_end_age = j
-    current_year = 2024
+    current_year = 2025
     
     monthly_pre_retirement_expenses = pre_retirement_expenses
     monthly_return_rate = (1 + annual_return_rate) ** (1/12) - 1
