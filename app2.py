@@ -4,6 +4,7 @@ matplotlib.use('Agg')
 import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
+from datetime import datetime  # 追加
 
 def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expenses_percentage, e, f, g, h, i, j, transactions):
     current_age = a
@@ -15,7 +16,7 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
     monthly_pension = h
     monthly_savings = i
     savings_end_age = j
-    current_year = 2025
+    current_year = datetime.now().year  # 修正：現在の西暦を自動取得
     
     monthly_pre_retirement_expenses = pre_retirement_expenses
     monthly_return_rate = (1 + annual_return_rate) ** (1/12) - 1
