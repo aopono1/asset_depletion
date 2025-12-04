@@ -39,7 +39,7 @@ def calculate_asset_depletion(a, b, c, pre_retirement_expenses, retirement_expen
                 monthly_expenses_adjusted = adjusted_retirement_expenses * ((1 + monthly_inflation_rate) ** ((current_age - pension_start_age) * 12 + month))
             
             # 資産の計算
-            if current_age > retirement_age:
+            if current_age >= retirement_age:
                 if current_age >= pension_start_age:
                     current_assets = current_assets * (1 + monthly_return_rate) - monthly_expenses_adjusted + monthly_pension
                 else:
